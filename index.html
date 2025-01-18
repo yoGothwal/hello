@@ -11,6 +11,18 @@
     <p>Fixed error</p>
     <p>Line added directly on git</p>
     <p id="display"></p>
-    <button id="button">Click</button>
+    <script>
+      const interval = setInterval(() => {
+        const date = new Date().toLocaleDateString("en-IN");
+        const time = new Date().toLocaleTimeString("en-IN", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        document.getElementById("display").textContent = `Date: ${date}
+          Time: ${time}`;
+      }, 1000);
+    </script>
   </body>
 </html>
