@@ -10,5 +10,18 @@
     <p>Hello Worldd</p>
     <p>Fixed error</p>
     <p>Line added directly on git</p>
+    <p id="display"></p>
+    <button id="button">Click</button>
+    <script>
+      document.getElementById("button").addEventListener("click", function () {
+        const date = new Date().toLocaleString("en-US", {
+          hour12: false, // 24-hour format
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        document.getElementById("display").textContent = `Date: ${date}`;
+      });
+    </script>
   </body>
 </html>
