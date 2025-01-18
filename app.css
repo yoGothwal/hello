@@ -1,5 +1,5 @@
 body {
-  background-color: lightblue;
+  background-color: yellow;
 }
 
 h1 {
@@ -7,6 +7,6 @@ h1 {
   margin-left: 20px;
 }
 .display {
-  background-color: black;
+  background-color: green;
   color: white;
 }
