@@ -5,10 +5,9 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-
   return (
     <>
-      <h1>Hello ! This is react app</h1>
+      <h1>Hello ! This is react app {count}</h1>
     </>
   );
 }
