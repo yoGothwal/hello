@@ -4,7 +4,11 @@
   padding: 2rem;
   text-align: center;
 }
-
+button {
+  margin: 10px;
+  color: white;
+  background-color: #213547;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
