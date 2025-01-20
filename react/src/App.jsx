@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import noteService from "./services/notes";
 import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [notes, setNotes] = useState([]);
   useEffect(() => {
     const lastCount = window.localStorage.getItem("count");
     if (lastCount) {
       setCount(parseInt(lastCount, 10));
     }
+    noteService.getAll().then((notes) => setNotes(notes));
   }, []);
   const handleTimerStart = () => {
     setInterval(() => {
@@ -40,6 +41,11 @@ function App() {
       >
         RESET
       </button>
+      <ul>
+        {notes.map((note) => {
+          <li id={note.id}>{note.content}</li>;
+        })}
+      </ul>
       <button onClick={handleTimerStart}>Start Counter</button>
     </>
   );
