@@ -1,7 +1,10 @@
 import axios from "axios"
 const URL = "http://localhost:5000/api/notes"
-const getAll = () => {
-    const res = axios.get(URL)
-    return res.then(response => response.data)
+const getAll = async () => {
+    console.log("notes")
+    const res = await axios.get(URL)
+    const notes = res.data
+    console.log("notes:", notes)
+    return notes
 }
 export default { getAll }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import noteService from "./services/notes";
 import "./App.css";
+import Notes from "./components/Notes";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -41,12 +42,8 @@ function App() {
       >
         RESET
       </button>
-      <ul>
-        {notes.map((note) => {
-          <li id={note.id}>{note.content}</li>;
-        })}
-      </ul>
       <button onClick={handleTimerStart}>Start Counter</button>
+      <Notes notes={notes}></Notes>
     </>
   );
 }

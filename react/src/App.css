@@ -9,6 +9,11 @@ button {
   color: white;
   background-color: #213547;
 }
+li {
+  margin: 10px;
+  color: white;
+  background-color: #213547;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
