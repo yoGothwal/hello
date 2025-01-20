@@ -1,24 +1,12 @@
 require("dotenv").config()
+const cors = require('cors')
 const express = require('express')
 const app = express()
 app.use(express.json())
+app.use(cors())
 const PORT = process.env.PORT || 6000;
 let notes = [
-    {
-        content: "First note",
-        id: 0,
-        important: true
-    },
-    {
-        cont: "Second note",
-        id: 1,
-        important: false
-    },
-    {
-        content: "Third note",
-        id: 2,
-        important: true
-    }
+
 ]
 let users = [
     {
@@ -26,6 +14,14 @@ let users = [
         username: 'Rohiiii'
     }
 ]
+const requestLogger = (req, res, next) => {
+    console.log('Method: ', req.method)
+    next()
+}
+const unknownApi = (req, res) => {
+    res.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(requestLogger)
 app.get("/", (req, res) => {
     res.send(`hello world`);
 });
@@ -36,16 +32,22 @@ app.get("/api/notes", (req, res) => {
 app.get("/api/notes/:id", (req, res) => {
     const id = parseInt(req.params.id)
     const note = notes.find(note => note.id === id)
+    if (!note) {
+        res.status(200).json({ message: "note doesn't exist" })
+    }
     res.status(200).json(note)
 })
 app.post("/api/notes", (req, res, next) => {
     try {
         const { content } = req.body
+        const id = notes.length + 1
         if (!content) {
             return res.status(400).json({ error: "Content missing" });
         }
         const newNote = {
-            content: content
+            content: content,
+            id: id,
+            important: true
         }
         notes = notes.concat(newNote)
         res.status(201).json(newNote)
@@ -78,6 +80,7 @@ app.use((err, req, res, next) => {
 app.get("/api/users", (req, res) => {
     res.status(200).send(users);
 });
+app.use(unknownApi)
 app.listen(PORT, () => {
     console.log(`App runnning on port ${PORT}`)
 })
