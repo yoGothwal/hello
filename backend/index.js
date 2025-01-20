@@ -6,7 +6,10 @@ app.use(express.json())
 app.use(cors())
 const PORT = process.env.PORT || 6000;
 let notes = [
-
+    {
+        content: "no",
+        id: 0
+    }
 ]
 let users = [
     {
