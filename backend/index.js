@@ -97,7 +97,7 @@ app.post("/api/signup", (req, res, next) => {
 app.get("/api/users", (req, res) => {
     res.status(200).send(users);
 });
-app.use(unknownApi)
+//app.use(unknownApi)
 app.listen(PORT, () => {
     console.log(`App runnning on port ${PORT}`)
 })
