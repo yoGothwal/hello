@@ -1,5 +1,5 @@
 import axios from "axios"
-const BASE_URL = "http://localhost:5000/api/notes"
+const BASE_URL = "/api/notes"
 const getAll = async () => {
     const res = await axios.get(`${BASE_URL}`)
     return res.data
