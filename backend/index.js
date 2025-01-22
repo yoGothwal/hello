@@ -80,6 +80,19 @@ app.use((err, req, res, next) => {
     });
 });
 
+app.post("/api/login", (req, res, next) => {
+    console.log(req.body)
+    const { username, password } = req.body
+    res.status(201).json({ username: username, password, token: "1234" })
+
+})
+app.post("/api/signup", (req, res, next) => {
+    console.log(req.body)
+    const { username, password } = req.body
+    res.status(201).json({ username: username, password, token: "1234" })
+
+})
+
 app.get("/api/users", (req, res) => {
     res.status(200).send(users);
 });

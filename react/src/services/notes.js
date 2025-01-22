@@ -1,10 +1,15 @@
 import axios from "axios"
-const URL = "http://localhost:5000/api/notes"
+const BASE_URL = "http://localhost:5000/api/notes"
 const getAll = async () => {
-    console.log("notes")
-    const res = await axios.get(URL)
-    const notes = res.data
-    console.log("notes:", notes)
-    return notes
+    const res = await axios.get(`${BASE_URL}`)
+    return res.data
 }
-export default { getAll }
+const create = async (noteObject) => {
+    const res = await axios.post(`${BASE_URL}`, noteObject)
+    return res.data
+}
+const remove = async (id) => {
+    const res = axios.delete(`${BASE_URL}/${id}`)
+    return res.data
+}
+export default { getAll, create, remove }
