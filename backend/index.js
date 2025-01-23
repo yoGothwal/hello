@@ -6,12 +6,7 @@ app.use(express.json())
 app.use(cors())
 app.use(express.static('dist'))
 const PORT = process.env.PORT || 6000;
-let notes = [
-    {
-        content: "no",
-        id: 0
-    }
-]
+const Note = require("./models/note")
 let users = [
     {
         name: 'Rohit',
@@ -31,11 +26,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
-    res.status(200).json(notes)
+    Note.find().then(notes => {
+        res.json(notes)
+    })
 })
 app.get("/api/notes/:id", (req, res) => {
     const id = parseInt(req.params.id)
-    const note = notes.find(note => note.id === id)
+    const note = Note.findById(id)
     if (!note) {
         res.status(200).json({ message: "note doesn't exist" })
     }
@@ -44,30 +41,27 @@ app.get("/api/notes/:id", (req, res) => {
 app.post("/api/notes", (req, res, next) => {
     try {
         const { content } = req.body
-        const id = notes.length + 1
         if (!content) {
             return res.status(400).json({ error: "Content missing" });
         }
-        const newNote = {
+        const newNote = new Note({
             content: content,
-            id: id,
-            important: true
-        }
-        notes = notes.concat(newNote)
-        res.status(201).json(newNote)
+            important: true || req.body.important
+        })
+        newNote.save().then(note => res.json(note))
     } catch (error) {
         next(error)
     }
 })
-app.delete('/api/notes/:id', (req, res, next) => {
+app.delete('/api/notes/:id', async (req, res, next) => {
     try {
-        const id = parseInt(req.params.id)
-        const n = notes.find(note => note.id === id)
-        console.log("note to be deleted:", n)
+        const id = req.params.id
+        const n = Note.findById(id)
         if (!n) {
             res.json({ message: "note doesn't exist or it has been deleted already" })
         }
-        notes = notes.filter(note => note.id !== id)
+        await Note.findByIdAndDelete(id)
+        console.log("note to be deleted:", n)
         res.status(204).end()
     } catch (error) {
         next(error)
