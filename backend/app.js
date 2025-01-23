@@ -17,6 +17,7 @@ mongoose.set("strictQuery", false)
 mongoose.connect(config.MONGO_URI).then(res => {
     console.log("connected to mongodb")
 })
+//////////////////////////////////
 app.use(middleWare.requestLogger)
 app.get('/', (req, res) => {
     res.send('hello world')
