@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
-const uri = process.env.MONGO_URI
+const config = require("../utils/config")
 mongoose.set("strictQuery", false)
-mongoose.connect(uri).then(res => {
+
+mongoose.connect(config.MONGO_URI).then(res => {
     console.log("connected to mongodb")
 })
 const noteSchema = new mongoose.Schema({
