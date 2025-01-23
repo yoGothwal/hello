@@ -1,9 +1,16 @@
 const mongoose = require("mongoose")
 const uri = process.env.MONGO_URI
 mongoose.set("strictQuery", false)
-mongoose.connect(uri)
+mongoose.connect(uri).then(res => {
+    console.log("connected to mongodb")
+})
 const noteSchema = new mongoose.Schema({
-    content: String,
+    content: {
+        type: String,
+        minLength: 5,
+
+        required: true
+    },
     important: Boolean,
 })
 const Note = mongoose.model('Note', noteSchema)

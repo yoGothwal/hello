@@ -10,9 +10,9 @@ POST http://localhost:5000/api/notes
 Content-Type: application/json
 
 {
-    "content": "Note 4"
+    "content": "Notii"
 }
 ###
-DELETE http://localhost:5000/api/notes/1
+DELETE http://localhost:5000/api/notes/6791e7a28ad5b8d286cdcdf6
 Content-Type: application/json
 

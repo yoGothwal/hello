@@ -1,12 +1,12 @@
-require("dotenv").config()
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(express.static('dist'))
-const PORT = process.env.PORT || 6000;
-const Note = require("./models/note")
+const PORT = process.env.PORT || 6000
+const Note = require('./models/note')
 let users = [
     {
         name: 'Rohit',
@@ -21,34 +21,36 @@ const unknownApi = (req, res) => {
     res.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(requestLogger)
-app.get("/", (req, res) => {
-    res.send(`hello world`);
-});
+app.get('/', (req, res) => {
+    res.send('hello world')
+})
 
-app.get("/api/notes", (req, res) => {
+app.get('/api/notes', (req, res) => {
     Note.find().then(notes => {
         res.json(notes)
     })
 })
-app.get("/api/notes/:id", (req, res) => {
+app.get('/api/notes/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const note = Note.findById(id)
     if (!note) {
-        res.status(200).json({ message: "note doesn't exist" })
+        res.status(200).json({ message: 'note doesn\'t exist' })
     }
     res.status(200).json(note)
 })
-app.post("/api/notes", (req, res, next) => {
+app.post('/api/notes', (req, res, next) => {
     try {
         const { content } = req.body
         if (!content) {
-            return res.status(400).json({ error: "Content missing" });
+            return res.status(400).json({ error: 'Content missing' })
         }
         const newNote = new Note({
             content: content,
-            important: true || req.body.important
+            important: req.body.important || true
         })
-        newNote.save().then(note => res.json(note))
+        newNote.save().then(note => res.json(note)).catch(error => {
+            next(error)
+        })
     } catch (error) {
         next(error)
     }
@@ -58,39 +60,42 @@ app.delete('/api/notes/:id', async (req, res, next) => {
         const id = req.params.id
         const n = Note.findById(id)
         if (!n) {
-            res.json({ message: "note doesn't exist or it has been deleted already" })
+            res.json({ message: 'note doesn\'t exist or it has been deleted already' })
         }
         await Note.findByIdAndDelete(id)
-        console.log("note to be deleted:", n)
+        console.log('note to be deleted:', n)
         res.status(204).end()
     } catch (error) {
         next(error)
     }
 })
 app.use((err, req, res, next) => {
-    console.error(err.message, err.status);
-    res.status(err.status || 500).json({
-        error: err.message || "Internal Server Error",
-        status: err.status || 500
-    });
-});
-
-app.post("/api/login", (req, res, next) => {
-    console.log(req.body)
-    const { username, password } = req.body
-    res.status(201).json({ username: username, password, token: "1234" })
-
-})
-app.post("/api/signup", (req, res, next) => {
-    console.log(req.body)
-    const { username, password } = req.body
-    res.status(201).json({ username: username, password, token: "1234" })
+    console.error(err.name, err.message, err.status)
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
+    }
+    next(error)
 
 })
 
-app.get("/api/users", (req, res) => {
-    res.status(200).send(users);
-});
+app.post('/api/login', (req, res, next) => {
+    console.log(req.body)
+    const { username, password } = req.body
+    res.status(201).json({ username: username, password, token: '1234' })
+
+})
+app.post('/api/signup', (req, res, next) => {
+    console.log(req.body)
+    const { username, password } = req.body
+    res.status(201).json({ username: username, password, token: '1234' })
+
+})
+
+app.get('/api/users', (req, res) => {
+    res.status(200).send(users)
+})
 //app.use(unknownApi)
 app.listen(PORT, () => {
     console.log(`App runnning on port ${PORT}`)
