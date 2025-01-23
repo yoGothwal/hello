@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const config = require('./utils/config')
 app.use(express.json())
 app.use(cors())
 app.use(express.static('dist'))
@@ -96,7 +97,7 @@ app.post('/api/signup', (req, res, next) => {
 app.get('/api/users', (req, res) => {
     res.status(200).send(users)
 })
-//app.use(unknownApi)
-app.listen(PORT, () => {
-    console.log(`App runnning on port ${PORT}`)
+app.use(unknownApi)
+app.listen(config.PORT, () => {
+    console.log(`App runnning on port ${config.PORT}`)
 })
