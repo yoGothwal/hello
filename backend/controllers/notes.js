@@ -5,11 +5,12 @@ notesRouter.get('/', async (req, res) => {
         res.json(notes)
     })
 })
-notesRouter.get('/:id', (req, res) => {
-    const id = parseInt(req.params.id)
-    const note = Note.findById(id)
+notesRouter.get('/:id', async (req, res) => {
+    const { id } = req.params
+    const note = await Note.findById(id)
+    console.log(note)
     if (!note) {
-        res.status(200).json({ message: 'note doesn\'t exist' })
+        return res.status(200).json({ message: 'note doesn\'t exist' })
     }
     res.status(200).json(note)
 })
@@ -33,7 +34,7 @@ notesRouter.post('/', (req, res, next) => {
 notesRouter.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
-        const n = Note.findById(id)
+        const n = await Note.findById(id)
         if (!n) {
             res.json({ message: 'note doesn\'t exist or it has been deleted already' })
         }

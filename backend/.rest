@@ -2,7 +2,7 @@
 GET http://localhost:5000/api/notes
 Content-Type: application/json
 ###
-GET http://localhost:5000/api/notes/2
+GET http://localhost:5000/api/notes/67973c109bef2ab09c9a2b7b
 Content-Type: application/json
 
 ###
@@ -10,9 +10,9 @@ POST http://localhost:5000/api/notes
 Content-Type: application/json
 
 {
-    "content": "Notii"
+    "content": "motii"
 }
 ###
-DELETE http://localhost:5000/api/notes/6791e7a28ad5b8d286cdcdf6
+DELETE http://localhost:5000/api/notes/67973c109bef2ab09c9a2b7b
 Content-Type: application/json
 
