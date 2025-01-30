@@ -14,6 +14,7 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
+import Logout from "./components/Logout";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -33,8 +34,8 @@ function App() {
   }, []);
 
   //login handling
-  const handleLogin = async ({ username, password }) => {
-    const res = await loginService.login({ username, password });
+  const handleLogin = async ({ email, password }) => {
+    const res = await loginService.login({ email, password });
     window.localStorage.setItem("user", JSON.stringify(res));
     setUser(res);
     navigate("/notes", { replace: true });
@@ -53,7 +54,21 @@ function App() {
 
   return (
     <>
-      <h1>Social Media</h1>
+      <div style={{ textAlign: "center", marginTop: "2vh" }}>
+        <h1
+          style={{
+            fontStyle: "italic",
+            display: "inline-block",
+            padding: "5px 10px",
+            color: "white",
+            backgroundColor: "#0d6efd",
+            borderRadius: "5px",
+          }}
+        >
+          Social Media
+        </h1>
+      </div>
+
       <Routes>
         <Route
           path="/"
@@ -75,7 +90,6 @@ function App() {
             ) : (
               <>
                 <Login handleSubmit={handleLogin}></Login>
-                <Link to="/signup">Sign-up</Link>
               </>
             )
           }
@@ -90,7 +104,6 @@ function App() {
             user ? (
               <>
                 <Notes notes={notes} setNotes={setNotes}></Notes>
-                <button onClick={handleLogout}>log-out</button>
               </>
             ) : (
               <Navigate to="/login"></Navigate>
@@ -98,6 +111,7 @@ function App() {
           }
         ></Route>
       </Routes>
+      {user ? <Logout handleLogout={handleLogout}></Logout> : ""}
     </>
   );
 }

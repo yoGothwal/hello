@@ -1,8 +1,18 @@
 ###
 GET http://localhost:5000/api/notes
 Content-Type: application/json
+
 ###
-GET http://localhost:5000/api/notes/67973c109bef2ab09c9a2b7b
+PUT http://localhost:5000/api/notes/67974884f572287a63e7f774
+Content-Type: application/json
+
+{
+    "conten": "12345",
+    "name":" hello"
+}
+
+###
+GET http://localhost:5000/api/notes/67973c159bef2ab09c9a2b7e
 Content-Type: application/json
 
 ###
@@ -10,9 +20,9 @@ POST http://localhost:5000/api/notes
 Content-Type: application/json
 
 {
-    "content": "motii"
+    "content": "hello"
 }
 ###
-DELETE http://localhost:5000/api/notes/67973c109bef2ab09c9a2b7b
+DELETE http://localhost:5000/api/notes/0
 Content-Type: application/json
 

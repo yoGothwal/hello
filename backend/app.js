@@ -12,6 +12,7 @@ const middleWare = require("./utils/middleware")
 /////////mongoose_connection/////////////
 const mongoose = require("mongoose")
 const config = require("./utils/config")
+const loginRouter = require('./controllers/login')
 mongoose.set("strictQuery", false)
 
 mongoose.connect(config.MONGO_URI).then(res => {
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api/notes', notesRouter)
 app.use('/api/signup', signupRouter)
+app.use('/api/login', loginRouter)
 app.get('/api/users', (req, res) => {
     res.status(200).send(users)
 })
