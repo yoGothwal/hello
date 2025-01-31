@@ -9,7 +9,7 @@ const errorHandler = (error, req, response, next) => {
 
 }
 const requestLogger = (req, res, next) => {
-    console.log('Method: ', req.method)
+    console.log('Method: ', req.method, req.path)
     next()
 }
 const unknownEndpoint = (req, res) => {

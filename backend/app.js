@@ -6,13 +6,14 @@ app.use(cors())
 app.use(express.static('dist'))
 
 const notesRouter = require('./controllers/notes')
-const signupRouter = require('./controllers/signup')
 const middleWare = require("./utils/middleware")
 
 /////////mongoose_connection/////////////
 const mongoose = require("mongoose")
 const config = require("./utils/config")
 const loginRouter = require('./controllers/login')
+
+const signupRouter = require('./controllers/signup')
 mongoose.set("strictQuery", false)
 
 mongoose.connect(config.MONGO_URI).then(res => {
