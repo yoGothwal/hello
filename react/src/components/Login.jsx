@@ -7,6 +7,7 @@ const Login = ({ handleSubmit }) => {
   const onSubmit = (event) => {
     console.log(username, password);
     event.preventDefault();
+
     handleSubmit({ username, password });
   };
 

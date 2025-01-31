@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // For redirection
+import signupService from "../services/Signup";
 
 const Signup = ({ handleSignup }) => {
   const [step, setStep] = useState(1); // Track form step
@@ -10,48 +11,61 @@ const Signup = ({ handleSignup }) => {
   const navigate = useNavigate(); // Navigation hook
 
   // Function to send OTP
-  const sendOtp = (e) => {
+  const sendOtp = async (e) => {
     e.preventDefault();
-    console.log("Sending OTP to:", email);
-
-    // Simulate backend OTP request
-    setTimeout(() => {
-      alert(`OTP sent to ${email}`);
-      setStep(2); // Move to OTP step
-    }, 1000);
+    try {
+      const data = await signupService.sendOtp(email); // Use service to send OTP
+      console.log(data);
+      if (data.success) {
+        alert("OTP sent successfully!");
+        setStep(2); // Move to OTP step
+      } else {
+        alert("Error sending OTP");
+      }
+    } catch (error) {
+      alert("Failed to send OTP");
+    }
   };
 
   // Function to verify OTP
-  const verifyOtp = (e) => {
+  const verifyOtp = async (e) => {
     e.preventDefault();
-    console.log("Verifying OTP:", otp);
-
-    // Simulate backend OTP verification
-    if (otp === "123456") {
-      // Replace with actual backend verification
-      alert("OTP Verified! Now set your username and password.");
-      setStep(3); // Move to username/password step
-    } else {
-      alert("Invalid OTP. Try again!");
+    try {
+      const data = await signupService.verifyOtp(email, otp); // Use service to verify OTP
+      if (data.success) {
+        console.log(data);
+        alert("OTP Verified!");
+        setStep(3); // Move to username and password step
+      } else {
+        alert("Invalid OTP");
+      }
+    } catch (error) {
+      alert("OTP verification failed");
     }
   };
 
   // Function to complete signup
-  const completeSignup = (e) => {
+  const handleSignupSubmit = async (e) => {
+    console.log(email, username, password);
     e.preventDefault();
-    console.log("Creating account for:", username);
-
-    // Simulate backend signup
-    setTimeout(() => {
-      alert("Signup successful! Redirecting to Login...");
-      handleSignup({ email, username, password }); // Save user info
-      navigate("/login"); // Redirect to Login
-    }, 1000);
+    try {
+      const data = await signupService.signUp({ email, username, password });
+      console.log(data);
+      if (data.message) {
+        alert("Signup successful! Redirecting to login...");
+        navigate("/login");
+      } else {
+        alert("Signup failed");
+      }
+    } catch (error) {
+      alert("Signup error");
+    }
   };
 
   return (
     <div className="container mt-5 d-flex justify-content-center">
       <form
+        onSubmit={handleSignupSubmit}
         className="p-4 border rounded shadow"
         style={{ maxWidth: "400px", width: "100%" }}
       >
@@ -122,9 +136,7 @@ const Signup = ({ handleSignup }) => {
                 required
               />
             </div>
-            <button onClick={completeSignup} className="btn btn-success w-100">
-              Sign Up
-            </button>
+            <button className="btn btn-success w-100">Sign Up</button>
           </>
         )}
       </form>

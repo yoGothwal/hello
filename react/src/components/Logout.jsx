@@ -14,15 +14,13 @@ const Logout = ({ handleLogout }) => {
       <button
         style={{
           marginTop: "500px",
-
-          padding: "8px 16px",
           color: "white",
+          backgroundColor: "#0d6efd",
+          padding: "8px 16px",
           border: "none",
           borderRadius: "5px",
           cursor: "pointer",
           textAlign: "center",
-
-          color: "#0d6efd",
         }}
         onClick={handleLogout}
       >

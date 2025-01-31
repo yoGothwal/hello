@@ -34,9 +34,10 @@ function App() {
   }, []);
 
   //login handling
-  const handleLogin = async ({ email, password }) => {
-    const res = await loginService.login({ email, password });
+  const handleLogin = async ({ username, password }) => {
+    const res = await loginService.login({ username, password });
     window.localStorage.setItem("user", JSON.stringify(res));
+
     setUser(res);
     navigate("/notes", { replace: true });
     console.log("login response : ", res);
@@ -47,9 +48,26 @@ function App() {
     setUser(null);
     navigate("/login", { replace: true });
   };
-  const handleSignup = async ({ username, password }) => {
-    const res = await signupService.signUp({ username, password });
-    navigate("/login", { replace: true });
+  // Function to complete signup
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, password }),
+      });
+
+      const data = await response.json();
+      if (data.message) {
+        alert("Signup successful! Redirecting to login...");
+        navigate("/login");
+      } else {
+        alert("Signup failed");
+      }
+    } catch (error) {
+      alert("Signup error");
+    }
   };
 
   return (
